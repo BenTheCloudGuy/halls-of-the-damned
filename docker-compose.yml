@@ -1,0 +1,100 @@
+services:
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+  open-webui:
+    container_name: open-webui
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:3000"
+    volumes:
+      - open-webui-data:/app/backend/data
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_BASE_URL=http://linuxbox.cglabs.work:11434
+      - WEBUI_SECRET_KEY=some-super-secret-key
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_BASE_URL=${OPENAI_AI_URL}
+    command: uvicorn open_webui.main:app --host 0.0.0.0 --port 3000
+    restart: unless-stopped
+
+  chromadb:
+    container_name: chromadb
+    image: chromadb/chroma:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./chroma_db:/app/chroma_db
+    environment:
+      - CHROMA_DB_DIR=/app/chroma_db
+      - CHROMA_PERSIST_DIRECTORY=/app/chroma_db
+    restart: unless-stopped
+
+  rag-service:
+    container_name: rag
+    build:
+      context: ./rag
+    volumes:
+      - ./rag/src:/app/data                 
+      - rag-chroma:/app/chroma_db          
+    depends_on:
+      - ollama
+      - chromadb
+    environment:
+      - OLLAMA_BASE_URL=http://linuxbox.cglabs.work:11434
+      - DATA_DIR=/app/data
+      - PERSIST_DIR=/app/chroma_db
+    ports:
+      - "9080:80"
+    command: python rag_server.py
+    restart: unless-stopped
+
+  postgres:  
+    container_name: postgres
+    image: postgres:15
+    environment:
+      POSTGRES_USER: vectoradmin
+      POSTGRES_PASSWORD: vectoradminpassword
+      POSTGRES_DB: vectoradmin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    
+  vectoradmin:
+    container_name: vectoradmin
+    image: mintplexlabs/vectoradmin
+    ports:
+      - "8080:8080"
+    environment:
+      - CHROMA_SERVER_HOST=chromadb
+      - CHROMA_SERVER_PORT=8000
+      - DATABASE_CONNECTION_STRING=postgresql://vectoradmin:vectoradminpassword@postgres:5432/vectoradmin
+    depends_on:
+      - chromadb
+      - postgres
+    restart: unless-stopped
+
+## Static Data Mounts ##
+volumes:
+  ollama-data:
+  open-webui-data:
+  rag-chroma:
+  chromadb-data:
+  postgres-data:
