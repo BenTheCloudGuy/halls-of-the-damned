@@ -6,14 +6,14 @@ Players: 4-6 (Level 3)
 
 ## Players ##
 
-| Name              | Race               | Class                      | Notes                                                                  |
-| ----------------- | ------------------ | -------------------------- | ---------------------------------------------------------------------- |
-| Gregor            | Human              | Ranger/Rogue               | Skilled marksman; uses a pistol; excels at tracking.                   |
-| Korith            | Crystal Dragonborn | Paladin                    | Nearly 7 feet tall; a noble and towering warrior.                      |
-| Merrick           | Shifter            | Druid (Circle of the Moon) | Wildshapes into animals; tied to the Shire's Grove.                    |
-| Sage              | Tiefling           | Druid/Bard                 |	Young, gifted with nature magic and song; experienced psychic visions. |
-| Krutha Nine-Lives | Orc                | Barbarian                  | Battle-scarred veteran; known for his brute strength and instinct.     |
-| Nina              | Human              | Ranger/Beastmaster         |	Has a beast companion; expert scout and hunter.                        |
+| Name              | Race               | Class                      | Notes                                                                  | View Sheet                              |
+| ----------------- | ------------------ | -------------------------- | ---------------------------------------------------------------------- | --------------------------------------- |
+| Gregor            | Human              | Ranger/Rogue               | Skilled marksman; uses a pistol; excels at tracking.                   | [View Sheet](./CHARACTERS/143420450.md) |
+| Korith            | Crystal Dragonborn | Paladin                    | Nearly 7 feet tall; a noble and towering warrior.                      | [View Sheet](./CHARACTERS/142640994.md) |
+| Merrick           | Shifter            | Druid (Circle of the Moon) | Wildshapes into animals; tied to the Shire's Grove.                    | [View Sheet](./CHARACTERS/143402838.md) |
+| Sage              | Tiefling           | Druid/Bard                 |	Young, gifted with nature magic and song; experienced psychic visions. | [View Sheet](./CHARACTERS/142641422.md) |
+| Krutha Nine-Lives | Orc                | Barbarian                  | Battle-scarred veteran; known for his brute strength and instinct.     | [View Sheet](./CHARACTERS/142641208.md) | 
+| Nina              | Human              | Ranger/Beastmaster         |	Has a beast companion; expert scout and hunter.                        | [View Sheet](./CHARACTERS/143420450.md) |
 
 
 ## The Story ##

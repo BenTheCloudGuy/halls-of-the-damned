@@ -1,0 +1,31 @@
+name: Upload Markdown Files as Gists
+
+on:
+  push:
+    paths:
+      - 'halls-of-the-damned/**/*.md'
+
+jobs:
+  upload-gists:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Find Markdown files
+        id: find_files
+        run: |
+          find halls-of-the-damned -type f -name "*.md" > md_files.txt
+          cat md_files.txt
+
+      - name: Upload each Markdown file as a Gist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          while IFS= read -r file; do
+            gist_desc="Auto-uploaded from $file"
+            gist_content=$(cat "$file")
+            gist_filename=$(basename "$file")
+            gh gist create "$file" --public -d "$gist_desc" --filename "$gist_filename"
+          done < md_files.txt
+        shell: bash
