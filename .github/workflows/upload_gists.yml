@@ -20,7 +20,7 @@ jobs:
 
       - name: Upload each Markdown file as a Gist
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           while IFS= read -r file; do
             gist_desc="Auto-uploaded from $file"
